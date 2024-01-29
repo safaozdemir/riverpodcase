@@ -1,5 +1,8 @@
+
+import 'package:flutter/src/widgets/framework.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+
 
 class AuthService {
   static Future<String?> login(String username, String password) async {
@@ -15,10 +18,10 @@ class AuthService {
     } else if (response.statusCode == 400) {
       var data = jsonDecode(response.body);
       String error = data['error'];
-      print('Login Error: $error');
+      //ShowToast(context as BuildContext, error);
       return null;
     } else {
-      print('LOGIN - UNSUCCESSFUL');
+      //ShowToast(context as BuildContext, 'LOGIN - UNSUCCESSFUL');
       return null;
     }
   }

@@ -31,7 +31,7 @@ class HomeScreen extends ConsumerWidget {
       ),
       floatingActionButton: FloatingActionButton(onPressed: ()async{
         await TokenService.removeData();
-        Navigator.push(context, MaterialPageRoute(builder: (context) => LogInView()));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LogInView()));
       },child: Icon(Icons.output),),
     );
   }

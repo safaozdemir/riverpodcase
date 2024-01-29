@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpodcase/services/authService.dart';
@@ -21,9 +22,9 @@ class LogInController {
     String? passwordError = validatePassword(password);
 
     if (emailError != null) {
-      _showDialog(context, emailError);
+      //_showDialog(context, emailError);
     } else if (passwordError != null) {
-      _showDialog(context, passwordError);
+      //_showDialog(context, passwordError);
     } else {
       AuthService.login(email, password);
       String? token = await AuthService.login(email, password);
@@ -32,7 +33,7 @@ class LogInController {
 
       var data = await TokenService.getStringData();
       print('data $data');
-      Navigator.push(
+      Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => HomeScreen()),
       );
@@ -42,10 +43,12 @@ class LogInController {
 
   static String? validateEmail(String? email) {
     if (email == null || email.isEmpty) {
-      return 'Email address is required';
+      //ShowToast(context as BuildContext, 'Email address is required');
+      return null;
     }
     if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email)) {
-      return 'Enter a valid email address';
+      //ShowToast(context as BuildContext, 'Email a valid email address');
+      return null;
     }
     return null;
   }
@@ -55,13 +58,29 @@ class LogInController {
       return 'Password is required';
     }
     if (password.length < 6) {
+      //_showToast(context, 'Email a valid email address');
       return 'Password must be at least 6 characters long';
     }
     return null;
   }
 
-  void _showDialog(BuildContext context, String message) {
-    // Hata mesajını kullanıcıya göstermek için bir dialog gösterilebilir
-    print('Error: $message');
+  void _showToast(BuildContext context, String message) {
+    final scaffold = ScaffoldMessenger.of(context);
+    scaffold.showSnackBar(
+      SnackBar(
+        backgroundColor: Colors.yellow,
+        duration: Duration(seconds: 2),
+        content: Text(
+          '${message ?? ''}',
+          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        ),
+        action: SnackBarAction(
+          label: 'KAPAT',
+          onPressed: scaffold.hideCurrentSnackBar,
+        ),
+      ),
+    );
   }
+
 }
+
